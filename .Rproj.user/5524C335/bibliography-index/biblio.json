@@ -24,6 +24,28 @@
             "type": "book"
         },
         {
+            "URL": "https://statkclee.github.io/ds-authoring/krila-digital-new-deal-text.html",
+            "author": [
+                {
+                    "family": "이광춘"
+                }
+            ],
+            "container-title": "지방자치이슈와 포럼",
+            "id": "kclee2020",
+            "issue": "33",
+            "issued": {
+                "date-parts": [
+                    [
+                        2020
+                    ]
+                ]
+            },
+            "page": "1-28",
+            "title": "디지털 뉴딜",
+            "type": "article-journal",
+            "volume": "2020년 10월호"
+        },
+        {
             "URL": "https://www.R-project.org/",
             "author": [
                 {
