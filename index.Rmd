@@ -11,6 +11,12 @@ link-citations: yes
 description: "2021년 대통령 선거에 바라는 시대정신을 정리합니다."
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE,
+                      comment="", digits = 3, tidy = FALSE, prompt = FALSE, fig.align = 'center')
+```
+
+
 # 대한민국 민주화 {-}
 
 1961년 박정희 군사혁명으로 시작된 군사독재는 1987년 6월항쟁을 거치며 외형상 **정치민주화**를 이뤘다.

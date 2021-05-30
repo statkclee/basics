@@ -3,3 +3,6 @@ donga-ilbo
 zeitgeist-president
 zeitgeist-2017
 realmeter-zeitgeist
+voters
+voters-group
+uk-generation
