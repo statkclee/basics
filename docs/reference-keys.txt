@@ -6,3 +6,8 @@ realmeter-zeitgeist
 voters
 voters-group
 uk-generation
+google-trends
+search-engine
+keywords
+keywords-by-region
+keywords-by-keyword
