@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # 구글 추세 {#google-trends}
 
 ## 검색엔진 점유율 {#search-engine}
@@ -6,27 +11,27 @@
 
 ![](fig/search-engine-marketshare.png)
 
-## 시대정신 키워드 트렌드 {#keywords}
+## 시대정신 키워드 트렌드 {#keywords-again}
 
 ```{r gtrends-ingest, eval = FALSE}
 library(tidyverse)
 library(gtrendsR)
 
-Sys.setlocale("LC_ALL", "C")
+# Sys.setlocale("LC_ALL", "C")
 
 zeitgeist <- gtrends(
   keyword = c("민주", "경제", "탄핵", "기본소득", "공정"),
   geo     = "KR",
   time    = "all")
 
-Sys.setlocale("LC_ALL", "Korean")
+# Sys.setlocale("LC_ALL", "Korean")
 
 zeitgeist %>% 
-  write_rds("data/zeitgeist_20210530.rds")
+  write_rds("data/zeitgeist_20210531.rds")
 ```
 
 ```{r gtrends-EDA}
-zeitgeist <- read_rds("data/zeitgeist_20210530.rds")
+zeitgeist <- read_rds("data/zeitgeist_20210531.rds")
 
 zeitgeist_time_tbl <- zeitgeist$interest_over_time %>% 
   as_tibble() %>% 
@@ -78,32 +83,78 @@ geomap_dat %>%
 ```
 
 
-## 연관키워드 시대정신  {#keywords-by-keyword}
+## 연관키워드 시대정신  {#keywords-by-keyword2}
 
 [kateo 미디어 데이터](https://statkclee.github.io/network/tidygraph-media.html#22_%EA%B2%B0%EC%A0%90%EA%B3%BC_%EC%97%B0%EA%B2%B0%EC%84%A0_%EB%8D%B0%EC%9D%B4%ED%84%B0_%EC%A0%95%EC%A0%9C) 네트워크 데이터 분석을 참고하여 데이터를 추후 정제한다. 
 
-```{r gtrends-EDA-linked-keywords, eval = FALSE}
+```{r gtrends-EDA-linked-keywords, eval = TRUE}
 library(ggraph)
 library(tidygraph)
-
-## 엣지
-keyword_edge_tbl <- zeitgeist$related_queries %>% 
-  mutate(value  = iconv(value, from = "UTF-8", to = "CP949")) %>% 
-  as_tibble() %>% 
-  mutate(subject = as.integer(subject)) %>% 
-  filter(!is.na(subject)) %>% 
-  select(from = keyword, to = value, weight = subject)
 
 ## 노드
 keyword_node_tbl <- zeitgeist_time_tbl %>% 
   group_by(keyword) %>% 
   summarise(hits = mean(hits, na.rm = TRUE)) %>% 
-  rename(from = keyword)
+  mutate(from = "GT") %>% 
+  select(from, to = keyword, weight = hits)
+
+## 엣지 ---------------------------------------------
+
+keyword_edge_tbl <- zeitgeist$related_queries %>% 
+  as_tibble() %>% 
+  mutate(subject = as.numeric(subject)) %>% 
+  filter(!is.na(subject)) %>% 
+  select(from = keyword, to = value, weight = subject) %>% 
+  bind_rows(keyword_node_tbl)
+
+
+keyword_nodes <- keyword_edge_tbl %>% 
+  select(from, to) %>% 
+  pivot_longer(from:to) %>% 
+  count(value) %>% 
+  mutate(id = row_number()) %>% 
+  select(id, keyword = value)
+  # Add hits
+  # left_join(keyword_node_tbl) %>% 
+  # arrange(hits)
+
+## -----------------------------------------------
+## From text to number 
+
+## 1.3. 네트워크 데이터 정제: 연결선 -----
+### 연결선을 결점과 연결
+keyword_edge <- keyword_edge_tbl %>%
+  left_join(keyword_nodes, by=c("from" = "keyword")) %>%
+  select(-from) %>% 
+  rename(from = id)
+
+keyword_edge <- keyword_edge %>%
+  left_join(keyword_nodes, by = c("to" = "keyword")) %>%
+  select(-to) %>% 
+  rename(to = id)
+
+keyword_edge <- keyword_edge %>% 
+  select(from, to, weight)
+
+## 1.4. 네트워크 데이터 변환(tidygraph) -----
+
+keyword_nodes <- keyword_nodes %>%
+  left_join(keyword_node_tbl, by = c("keyword" = "to")) %>% 
+  select(id, keyword, hit = weight)
+
 
 keyword_tidy_nw <- tbl_graph(
-  nodes = keyword_node_tbl, edges = keyword_edge_tbl, directed = TRUE
+  nodes = keyword_nodes, edges = keyword_edge, directed = TRUE
 )
- 
 
+```
+
+
+```{r ggraph-visualization}
+keyword_tidy_nw %>% 
+  ggraph(layout = "kk") +
+    geom_edge_link(aes(width = weight / 100)) +
+    geom_node_point(aes(size = hit)) + 
+    theme_graph()
 ```
 
