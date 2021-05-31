@@ -112,7 +112,7 @@ keyword_nodes <- keyword_edge_tbl %>%
   select(from, to) %>% 
   pivot_longer(from:to) %>% 
   count(value) %>% 
-  mutate(id = row_number()) %>% 
+  mutate(id = row_number()-1) %>% 
   select(id, keyword = value)
   # Add hits
   # left_join(keyword_node_tbl) %>% 
@@ -142,19 +142,24 @@ keyword_nodes <- keyword_nodes %>%
   left_join(keyword_node_tbl, by = c("keyword" = "to")) %>% 
   select(id, keyword, hit = weight)
 
-
-keyword_tidy_nw <- tbl_graph(
-  nodes = keyword_nodes, edges = keyword_edge, directed = TRUE
-)
-
 ```
 
 
-```{r ggraph-visualization}
-keyword_tidy_nw %>% 
-  ggraph(layout = "kk") +
-    geom_edge_link(aes(width = weight / 100)) +
-    geom_node_point(aes(size = hit)) + 
-    theme_graph()
+```{r networkd3}
+library(networkD3)
+
+keyword_nw <- forceNetwork(Links = keyword_edge, Nodes = keyword_nodes,
+            Source = "from", Target = "to",
+            NodeID = "keyword",
+            Group = "keyword",
+            bounded = TRUE,
+            opacityNoHover = TRUE,
+            zoom = TRUE,
+            Nodesize = "hit",
+            fontSize = 15,
+            linkDistance = 95,
+            opacity = 1)
+
+keyword_nw
 ```
 
