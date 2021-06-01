@@ -1,0 +1,265 @@
+# 대통령 지지율 {#president-approval}
+
+<style>
+
+.row {
+    display : flex;
+    align-items : center;
+    margin-bottom: 15px;
+  }
+  
+.box {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+  margin-right : 10px;
+  margin-left : 35px;
+}
+
+
+.green {
+  background: green;
+  color: green;
+}
+
+.red {
+  background-color: red;
+  color: red;
+}
+
+</style>
+
+## 역대 지지율 {#final-approval-rate}
+
+```{r approval-rate, eval = FALSE}
+library(tidyverse)
+library(rvest)
+
+get_html <- function(xpath) {
+  
+  Sys.setlocale("LC_ALL", "C")
+
+  approval_html <- read_html("https://ko.wikipedia.org/wiki/대한민국의_대통령_지지율") 
+  
+  Sys.sleep(1)
+    
+  presid_dat <- approval_html %>% 
+    html_node(xpath = xpath) %>% 
+    html_table(fill = TRUE) 
+
+  Sys.setlocale("LC_ALL", "Korean")
+  
+  presid_dat <- presid_dat %>% 
+    janitor::clean_names(ascii = FALSE)
+  
+  return(presid_dat)
+}
+
+# 13대 노태우 대통령 -------------------------------------------------
+
+presid_13_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[3]')
+
+## 당선 득표율/지지율
+presid_13_start <- presid_13_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "1987년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_13_end <- presid_13_dat %>% 
+  filter(str_detect(지지율_득표율_8, pattern = "1992년 6월 ~ 8월")) %>% 
+  pull(지지율_득표율_9)
+
+## 데이터 취합    
+  
+presid_13_tbl <- tibble(대통령     = "13대 노태우",
+                        출범지지율 = presid_13_start,
+                        최종지지율 = presid_13_end)
+
+presid_13_tbl
+
+# 14대 김영삼 대통령 -------------------------------------------------
+
+presid_14_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[4]')
+
+## 당선 득표율/지지율
+presid_14_start <- presid_14_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "1992년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_14_end <- presid_14_dat %>% 
+  filter(str_detect(지지율_득표율_8, pattern = "1998년 2월")) %>% 
+  pull(지지율_득표율_9)
+
+## 데이터 취합    
+  
+presid_14_tbl <- tibble(대통령     = "14대 김영삼",
+                        출범지지율 = presid_14_start,
+                        최종지지율 = presid_14_end)
+
+presid_14_tbl
+
+# 15대 김대중 대통령 -------------------------------------------------
+
+presid_15_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[5]')
+
+## 당선 득표율/지지율
+presid_15_start <- presid_15_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "1997년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_15_end <- presid_15_dat %>% 
+  filter(str_detect(지지율_득표율_8, pattern = "2002년 12월")) %>% 
+  pull(지지율_득표율_9)
+
+## 데이터 취합    
+  
+presid_15_tbl <- tibble(대통령     = "15대 김대중",
+                        출범지지율 = presid_15_start,
+                        최종지지율 = presid_15_end)
+
+presid_15_tbl
+
+# 16대 노무현 대통령 -------------------------------------------------
+
+presid_16_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[6]')
+
+## 당선 득표율/지지율
+presid_16_start <- presid_16_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "2002년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_16_end <- presid_16_dat %>% 
+  filter(str_detect(지지율_득표율_8, pattern = "2007년 12월")) %>% 
+  pull(지지율_득표율_9)
+
+## 데이터 취합    
+  
+presid_16_tbl <- tibble(대통령     = "16대 노무현",
+                        출범지지율 = presid_16_start,
+                        최종지지율 = presid_16_end)
+
+presid_16_tbl
+
+# 17대 이명박 대통령 -------------------------------------------------
+
+presid_17_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[7]')
+
+## 당선 득표율/지지율
+presid_17_start <- presid_17_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "2007년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_17_end <- presid_17_dat %>% 
+  filter(str_detect(지지율_득표율_8, pattern = "2012년 12월")) %>% 
+  pull(지지율_득표율_9)
+
+## 데이터 취합    
+  
+presid_17_tbl <- tibble(대통령     = "17대 이명박",
+                        출범지지율 = presid_17_start,
+                        최종지지율 = presid_17_end)
+
+presid_17_tbl
+
+# 18대 박근혜 대통령 -------------------------------------------------
+
+presid_18_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[8]')
+
+## 당선 득표율/지지율
+presid_18_start <- presid_18_dat %>% 
+  filter(str_detect(조사_날짜, pattern = "2012년 대선")) %>% 
+  pull(지지율_득표율)
+
+## 퇴임직전 지지율
+presid_18_end <- presid_18_dat %>% 
+  filter(str_detect(지지율_득표율_9, pattern = "2016년 12월 2주")) %>% 
+  pull(지지율_득표율_10)
+
+## 데이터 취합    
+  
+presid_18_tbl <- tibble(대통령     = "18대 박근혜",
+                        출범지지율 = presid_18_start,
+                        최종지지율 = presid_18_end)
+
+presid_18_tbl
+
+# 19대 문재인 대통령 -------------------------------------------------
+
+presid_19_dat <- get_html('//*[@id="mw-content-text"]/div[1]/table[1]') %>% 
+  as_tibble()
+
+## 당선 득표율/지지율
+presid_19_start <- presid_19_dat %>% 
+  filter(str_detect(대통령_선거, pattern = "2017년 대선")) %>% 
+  pull(득표율)
+
+## 퇴임직전 지지율
+presid_19_end <- presid_19_dat %>% 
+  filter(str_detect(득표율_12, pattern = "2021년 5월 4주")) %>% 
+  pull(득표율_13)
+
+## 데이터 취합    
+  
+presid_19_tbl <- tibble(대통령     = "19대 문재인",
+                        출범지지율 = presid_19_start,
+                        최종지지율 = presid_19_end)
+
+presid_19_tbl
+
+
+# 과거 대통령 데이터 취합 ---------------------------------
+presid_tbl <- presid_13_tbl %>% 
+  bind_rows(presid_14_tbl) %>% 
+  bind_rows(presid_15_tbl) %>% 
+  bind_rows(presid_16_tbl) %>% 
+  bind_rows(presid_17_tbl) %>% 
+  bind_rows(presid_18_tbl) %>% 
+  bind_rows(presid_19_tbl)
+
+presid_tbl %>% 
+  write_csv("data/presid_tbl.csv")
+
+```
+
+```{r approval-rate-table}
+library(tidyverse)
+library(reactable)
+
+presid_dat <- read_csv("data/presid_tbl.csv")
+
+presid_tbl <- presid_dat %>% 
+  mutate(출범지지율 = parse_number(출범지지율) / 100,
+         최종지지율 = parse_number(최종지지율) / 100) %>% 
+  mutate(지지율차이 = 출범지지율 - 최종지지율) %>% 
+  mutate(정권교체 = case_when(str_detect(대통령, "노태우") ~ "정권연장",
+                              str_detect(대통령, "김영삼") ~ "정권교체",
+                              str_detect(대통령, "김대중") ~ "정권연장",
+                              str_detect(대통령, "노무현") ~ "정권교체",
+                              str_detect(대통령, "이명박") ~ "정권연장",
+                              str_detect(대통령, "박근혜") ~ "정권교체",
+                              str_detect(대통령, "문재인") ~ "정권연장"))
+                              # TRUE ~ NA_character_))
+
+
+
+presid_tbl %>% 
+  # arrange(지지율차이) %>% 
+  reactable::reactable(columns = list(
+  출범지지율 = colDef(format = colFormat(percent = TRUE, digits = 1)),
+  최종지지율 = colDef(format = colFormat(percent = TRUE, digits = 1)),
+  지지율차이 = colDef(format = colFormat(percent = TRUE, digits = 1)),
+  정권교체   = colDef(minWidth = 70, align = "center", cell = function(value) {
+    if (str_detect(value, "정권연장")) {
+      class <- "box green"
+    } else {
+      class <- "box red"
+    }
+      htmltools::div(class = class, "")  
+    }
+ )))
+
+```

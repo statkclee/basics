@@ -11,3 +11,5 @@ search-engine
 keywords-again
 keywords-by-region
 keywords-by-keyword2
+president-approval
+final-approval-rate

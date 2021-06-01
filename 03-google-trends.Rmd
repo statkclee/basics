@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # 구글 추세 {#google-trends}
 
 ## 검색엔진 점유율 {#search-engine}
@@ -51,7 +46,7 @@ zeitgeist_trends_gg <- zeitgeist_time_tbl %>%
           subtitle = "민주, 경제, 탄핵, 기본소득, 정의") +
     theme_minimal(base_family = "NanumGothic")
 
-zeitgeist_trends_gg
+# zeitgeist_trends_gg
 ```
 
 ```{r gtrends-EDA-interactive}
