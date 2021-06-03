@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>참고문헌 | 시대정신</title>
+  <title>Chapter 4 대통령 지지율 | 시대정신</title>
   <meta name="description" content="2021년 대통령 선거에 바라는 시대정신을 정리합니다." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="참고문헌 | 시대정신" />
+  <meta property="og:title" content="Chapter 4 대통령 지지율 | 시대정신" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="참고문헌 | 시대정신" />
+  <meta name="twitter:title" content="Chapter 4 대통령 지지율 | 시대정신" />
   
   <meta name="twitter:description" content="2021년 대통령 선거에 바라는 시대정신을 정리합니다." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="04-approval-rate.html"/>
-
+<link rel="prev" href="03-google-trends.html"/>
+<link rel="next" href="06-references.html"/>
 <script src="libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -140,31 +140,80 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="참고문헌" class="section level1 unnumbered">
-<h1>참고문헌</h1>
+<div id="president-approval" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> 대통령 지지율</h1>
+<style>
 
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-kclee2020" class="csl-entry">
-이광춘. 2020. <span>“디지털 뉴딜.”</span> <em>지방자치이슈와 포럼</em> 2020년 10월호 (33): 1–28. <a href="https://statkclee.github.io/ds-authoring/krila-digital-new-deal-text.html">https://statkclee.github.io/ds-authoring/krila-digital-new-deal-text.html</a>.
+.row {
+    display : flex;
+    align-items : center;
+    margin-bottom: 15px;
+  }
+  
+.box {
+  height: 20px;
+  width: 20px;
+  border: 1px solid black;
+  margin-right : 10px;
+  margin-left : 35px;
+}
+
+
+.green {
+  background: green;
+  color: green;
+}
+
+.red {
+  background-color: red;
+  color: red;
+}
+
+</style>
+<div id="final-approval-rate" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> 역대 지지율</h2>
+<p><a href="https://ko.wikipedia.org/wiki/대한민국의_대통령_지지율">대한민국의 대통령 지지율</a> 데이터로부터 출범 지지율과 최종 지지율을 통해 정권교체 결과를 정리할 수 있다.</p>
+<ul>
+<li>13대: 노태우, 김영삼, 김대중, 김종필</li>
+<li>14대: 김영삼, 김대중, 정주영, 박찬종</li>
+<li>15대: 김대중, 이회창, 이인제</li>
+<li>16대: 노무현, 이회창, (권영길)</li>
+<li>17대: 이명박, 정동영, 이회창, 문국현, (권영길)</li>
+<li>18대: 박근혜, 문재인</li>
+<li>19대: 문재인, 홍준표, 안철수, 유승민, 심상정</li>
+</ul>
+<p>전임 대통령 지지율에서 출범 당선 대통령 지지율을 빼서 <code>전임_출범</code> 변수를 만들어 보고 정권교체 여부도 함께 표시해보자.</p>
+<div id="htmlwidget-42a968173eef69719d87" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-42a968173eef69719d87">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"대통령":["13대 노태우","14대 김영삼","15대 김대중","16대 노무현","17대 이명박","18대 박근혜","19대 문재인"],"선거구도":["4자","4자","3자","양자","4자","양자","5자"],"전임지지율":["NA",0.12,0.06,0.24,0.27,0.23,0.05],"출범지지율":[0.366,0.42,0.403,0.489,0.487,0.516,0.411],"최종지지율":[0.12,0.06,0.24,0.27,0.23,0.05,0.37],"전임_출범":["NA",-0.3,-0.343,-0.249,-0.217,-0.286,-0.361],"정권교체":["정권연장","정권연장","정권교체","정권연장","정권교체","정권연장","정권교체"]},"columns":[{"accessor":"대통령","name":"대통령","type":"character"},{"accessor":"선거구도","name":"선거구도","type":"character","align":"center"},{"accessor":"전임지지율","name":"전임지지율","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"출범지지율","name":"출범지지율","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"최종지지율","name":"최종지지율","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"전임_출범","name":"전임_출범","type":"numeric","format":{"cell":{"digits":1,"percent":true},"aggregated":{"digits":1,"percent":true}}},{"accessor":"정권교체","name":"정권교체","type":"character","cell":[{"name":"div","attribs":{"className":"box green"},"children":[""]},{"name":"div","attribs":{"className":"box green"},"children":[""]},{"name":"div","attribs":{"className":"box red"},"children":[""]},{"name":"div","attribs":{"className":"box green"},"children":[""]},{"name":"div","attribs":{"className":"box red"},"children":[""]},{"name":"div","attribs":{"className":"box green"},"children":[""]},{"name":"div","attribs":{"className":"box red"},"children":[""]}],"minWidth":70,"align":"center"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"452f75d26336df0fa07c6b911f0d2a84","key":"452f75d26336df0fa07c6b911f0d2a84"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="직전-여론조사와-최종-득표율" class="section level2 tabset" number="4.2">
+<h2><span class="header-section-number">4.2</span> 직전 여론조사와 최종 득표율</h2>
+<div id="제-16-대" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> 제 16 대</h3>
+<p><img src="basics_files/figure-html/presid-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="제-17-대" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> 제 17 대</h3>
+<p><img src="basics_files/figure-html/presid-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="제-18-대" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> 제 18 대</h3>
+<p><img src="basics_files/figure-html/presid-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="제-19-대" class="section level3 active" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> 제 19 대</h3>
+<p><img src="basics_files/figure-html/presid-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+
 </div>
 </div>
 </div>
-
-
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="04-approval-rate.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="03-google-trends.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="06-references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

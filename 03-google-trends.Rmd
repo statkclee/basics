@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # 구글 추세 {#google-trends}
 
 ## 검색엔진 점유율 {#search-engine}
@@ -17,21 +12,21 @@ editor_options:
 library(tidyverse)
 library(gtrendsR)
 
-# Sys.setlocale("LC_ALL", "C")
+Sys.setlocale("LC_ALL", "C")
 
 zeitgeist <- gtrends(
-  keyword = c("민주", "경제", "탄핵", "기본소득", "공정"),
+  keyword = c("민주", "경제", "탄핵", "기본소득", "정의"),
   geo     = "KR",
   time    = "all")
 
-# Sys.setlocale("LC_ALL", "Korean")
+Sys.setlocale("LC_ALL", "Korean")
 
 zeitgeist %>% 
-  write_rds("data/zeitgeist_20210531.rds")
+  write_rds("data/zeitgeist_20210601.rds")
 ```
 
 ```{r gtrends-EDA}
-zeitgeist <- read_rds("data/zeitgeist_20210531.rds")
+zeitgeist <- read_rds("data/zeitgeist_20210601.rds")
 
 zeitgeist_time_tbl <- zeitgeist$interest_over_time %>% 
   as_tibble() %>% 
@@ -48,7 +43,7 @@ zeitgeist_trends_gg <- zeitgeist_time_tbl %>%
           y = "관심도",
           color = "키워드",
           title = "시간의 흐름에 따른 관심도 변화",
-          subtitle = "민주, 경제, 탄핵, 기본소득, 공정") +
+          subtitle = "민주, 경제, 탄핵, 기본소득, 정의") +
     theme_minimal(base_family = "NanumGothic")
 
 # zeitgeist_trends_gg
@@ -66,14 +61,14 @@ ggplotly(zeitgeist_trends_gg, tooltip = "text")
 
 ```{r gtrends-EDA-region}
 
-geomap_dat <- read_csv("data/zeitgeist_geoMap_20210530.csv", skip = 2)
+geomap_dat <- read_csv("data/zeitgeist_geoMap_20210601.csv", skip = 2)
 
 geomap_dat %>% 
   # 데이터 전처리 ----------------
-  set_names(c("지역", "민주", "경제", "탄핵", "기본소득", "공정")) %>% 
+  set_names(c("지역", "민주", "경제", "탄핵", "기본소득", "정의")) %>% 
   pivot_longer(-지역, names_to = "키워드", values_to = "관심도") %>% 
   mutate(관심도 = parse_number(관심도)) %>% 
-  mutate(키워드 = factor(키워드, levels = c("민주", "경제", "탄핵", "기본소득", "공정"))) %>% 
+  mutate(키워드 = factor(키워드, levels = c("민주", "경제", "탄핵", "기본소득", "정의"))) %>% 
   ggplot(aes(x = 키워드, y = 관심도,  fill = 키워드)) +
     geom_col() +
     facet_wrap(~지역) +
@@ -102,6 +97,8 @@ keyword_node_tbl <- zeitgeist_time_tbl %>%
 
 keyword_edge_tbl <- zeitgeist$related_queries %>% 
   as_tibble() %>% 
+  # 맥에서 컴파일 하면 필요없음 -----------------------------------
+  # mutate(value = iconv(value, from = "utf-8", to = "cp949")) %>% 
   mutate(subject = as.numeric(subject)) %>% 
   filter(!is.na(subject)) %>% 
   select(from = keyword, to = value, weight = subject) %>% 

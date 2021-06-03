@@ -11,3 +11,10 @@ search-engine
 keywords-again
 keywords-by-region
 keywords-by-keyword2
+president-approval
+final-approval-rate
+직전-여론조사와-최종-득표율
+제-16-대
+제-17-대
+제-18-대
+제-19-대
